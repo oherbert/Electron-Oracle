@@ -20,8 +20,6 @@ async function run(query ,condic = 0) {
       connectString : config.connectString
     });
 
-    console.log(query);
-
     const result = await connection.execute(
       query,
       condicts,  // bind value for :id

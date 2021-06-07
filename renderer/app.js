@@ -8,6 +8,7 @@ let departments = [];
 let computador = '';
 let organizacao = '';
 let department = '';
+let refTabela = [];
 
 Promise.resolve(run(query.allDeps))
 .then(res => { 
@@ -34,10 +35,16 @@ Promise.resolve(run(query.allDeps))
   
   t += '<tbody>';
   for(let dep of departments){
-    t += `<tr>`;
+    t += `<tr id='${dep[keys[0]]}' >`;
+
+    refTabela.push(dep[keys[0]]);
+
     for(let key of keys){
+      
       t +=  `<td class="active-row">`;
+      
       t += (dep[key] === null ) ? '-': dep[key];
+      
       t+= '</td>';
     }
     t+= '</tr>';
@@ -46,8 +53,18 @@ Promise.resolve(run(query.allDeps))
 
   table.innerHTML = t.replace(/,/g,'');
   divForm.appendChild(table);
+}).finally(()=>{ 
+
+  refTabela.forEach(element => {
+    document.getElementById(element).addEventListener ("click", e => {callBtn(element)});
+  })
 
 });
+
+function callBtn(e){
+  depTxt.value = e;
+  btnFind.click();
+}
 
 // Dom Nodes
 let showModal = document.getElementById('show-modal'),
@@ -75,7 +92,6 @@ const toggleModalButtons = () => {
 // Show modal
 showModal.addEventListener('click', e => {
   modal.style.display = 'flex'
-  // FIM
   depTxt.focus();
 })
 
@@ -89,7 +105,7 @@ btnFind.addEventListener('click', e => {
   if(depTxt.value){
     toggleModalButtons();
   
-  Promise.resolve(run(query.department, depTxt.value))
+  Promise.resolve(run(query.allEmps, depTxt.value))
   .then(res => { 
   department = res;
   console.log(department); 
@@ -99,12 +115,11 @@ btnFind.addEventListener('click', e => {
     modal.style.display = 'none';
     depTxt.value = '';
   });
-
 }});
 
 // Listen for keyboard submit
 depTxt.addEventListener('keyup', e => {
-  if( e.key === 'Enter' ) btnFind.click()
+  if( e.key === 'Enter' ) btnFind.click();
 })
 
 // Pegar os parametros passados na execução
@@ -120,8 +135,9 @@ ipcRenderer.once('params', ( e ,parms) => {
      });
     }
   });
-  Promise.resolve(run(query.usuario, computador, organizacao))
-  .then(res => { 
+  
+Promise.resolve(run(query.usuario, computador, organizacao))
+.then(res => { 
     queryResult = res; 
     if (queryResult.length === 0 || computador != os.hostname) ipcRenderer.send('User-Proibido');
   });
