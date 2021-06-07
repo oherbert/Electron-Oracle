@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline'">
+    <title>Busca por departamento</title>
+    <link rel="stylesheet" href="main.css">
+  </head>
+  <body>
+
+    <header>
+      <button id="show-modal">Buscar</button>
+      <input type="text" id="busca" placeholder="Codigo do departamento">
+    </header>
+
+    <main>
+      <p id="no-items">Sem resultado</p>
+      <div id="items"></div>
+    </main>
+
+    <div id="modal">
+      <h1>
+          Departamentos
+      </h1>
+      <div class="div-form" id="div-form">  
+      </div>
+      <div class="div-text">
+      <input type="text" id="url" placeholder="Selecione o departamento">
+      </div>
+      <button id="btn-find">Procurar Departamento</button>
+      <button id="close-modal">Cancelar</button>
+    </div>
+
+    <script>
+      // You can also require other files to run in this process
+      require('./app')
+    </script>
+  </body>
+</html>
