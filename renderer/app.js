@@ -7,6 +7,7 @@ let queryResult = '';
 let departments = [];
 let computador = '';
 let organizacao = '';
+let employee = [];
 
 Promise.resolve(run(query.allDeps))
 .then(res => { 
@@ -41,7 +42,7 @@ const toggleModalButtons = () => {
 
 // Show modal
 showModal.addEventListener('click', e => {
-  modal.style.display = 'flex'
+  modal.style.display = 'flex';
   depTxt.focus();
 })
 
@@ -57,9 +58,9 @@ btnFind.addEventListener('click', e => {
   
   Promise.resolve(run(query.allEmps, depTxt.value))
   .then(res => { 
-  const emps = res;
+  employee = res;
   
-  if(emps.length > 0) createTable('.emps',emps);
+  if(employee.length > 0) createTable('.emps',employee);
   else{
     const div = document.querySelector('.emps');
     const p = document.createElement('p');
@@ -160,3 +161,12 @@ function callBtn(e){
   depTxt.value = e;
   btnFind.click();
 }
+
+ipcRenderer.on('Salvar', ( e ,parms) => { 
+  if (employee.length > 0) ipcRenderer.send('Salvar', employee); 
+});
+
+ipcRenderer.on('Criado', ( e ,parms) => { 
+  const download = document.getElementById('download');
+  download.click();
+});

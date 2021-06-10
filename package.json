@@ -1,5 +1,5 @@
 {
-  "name": "master-electron",
+  "name": "electron",
   "version": "1.0.0",
   "description": "Exemplo de projeto com Electron",
   "main": "main.js",
@@ -11,17 +11,17 @@
   "repository": "https://github.com/stackacademytv/master-electron",
   "keywords": [
     "Electron",
-    "Master Electron",
     "demo"
   ],
-  "author": "GitHub, Stackacademytv",
+  "author": "Herbert C Soares",
   "license": "CC0-1.0",
   "devDependencies": {
-    "electron": "^9.0.0",
+    "electron": "^13.1.1",
     "nodemon": "^2.0.0"
   },
   "dependencies": {
     "electron-window-state": "^5.0.3",
+    "json2xls": "^0.1.2",
     "oracledb": "^5.2.0"
   }
 }
