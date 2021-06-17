@@ -5,8 +5,8 @@ const os = require('os');
 
 let queryResult = '';
 let departments = [];
-let computador = '';
-let organizacao = '';
+let usuario = '';
+let senha = '';
 let employee = [];
 
 Promise.resolve(run(query.allDeps))
@@ -87,23 +87,24 @@ depTxt.addEventListener('keyup', e => {
 })
 
 // Pegar os parametros passados na execução
-ipcRenderer.send('online')
+ipcRenderer.send('online');
 ipcRenderer.once('params', ( e ,parms) => {
   parms.forEach(element => {
    if(element.indexOf('=') > 0){ 
      const value = element.split(',');
      value.forEach(ev => {
         const val = ev.split('=');
-        if( val[0].toUpperCase() === 'COMPUTADOR') computador = val[1];
-        if( val[0].toUpperCase() === 'ORGANIZACAO') organizacao = val[1]; 
+        if( val[0].toUpperCase() === 'USUARIO') usuario = val[1];
+        if( val[0].toUpperCase() === 'SENHA') senha = val[1]; 
      });
     }
   });
   
-Promise.resolve(run(query.usuario, computador, organizacao))
+Promise.resolve(run(query.acesso, usuario, senha))
 .then(res => { 
     queryResult = res; 
-    if (queryResult.length === 0 || computador != os.hostname) ipcRenderer.send('User-Proibido');
+    console.log(os);
+    //if (queryResult.length === 0 || usuario != os.userInfo) ipcRenderer.send('User-Proibido');
   });
 })
 

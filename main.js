@@ -1,35 +1,15 @@
 // Modules
 const {app, BrowserWindow, ipcMain, Menu} = require('electron');
 const windowStateKeeper = require('electron-window-state');
-const geraXls = require('./geraXls');
+const mainMenu = require('./menu');
 
-// Keep a global reference of the window object, if you don't, the window will
-// be closed automatically when the JavaScript object is garbage collected.
-let mainWindow;
+// Pega o emissor da tela para futura respostas
 let emiter;
-
-
-const mainMenu = Menu.buildFromTemplate([
-  {
-    label:'Principal',
-    submenu: [
-      {label:'Salvar',click:()=>{
-        
-        emiter.sender.send('Salvar');
-      
-      }, accelerator:'Ctrl+S'},
-      {label:'Tela Cheia',role:'togglefullscreen'},
-      {label:'Sistema',
-            submenu:[{label:'Sair',click:()=>{app.quit();},accelerator:'Esc'},
-                     {label:'Help'}]}
-    ]
-  }
-]);
 
 // Create a new BrowserWindow when `app` is ready
 function createWindow () {
 
-  // Win state keeper
+  // Mantem na memório o estado da Tela
   let state = windowStateKeeper({
     defaultWidth: 500, defaultHeight: 650
   })
@@ -48,7 +28,10 @@ function createWindow () {
   Menu.setApplicationMenu(mainMenu);
 
   //Passa os parametros da chamada
-  ipcMain.once('online', (e, args) => {
+  ipcMain.on('online', (e, args) => {
+    console.log('Main online');
+
+    // Passa os parametros para a tela
     e.sender.send('params', process.argv);
     emiter = e;
   });  
@@ -57,18 +40,13 @@ function createWindow () {
     app.quit();
   });
 
-  ipcMain.on('Salvar', (e, args) => {
-      geraXls(args);
-      e.sender.send('Criado');
-  });
-
   // Load index.html into the new BrowserWindow
   mainWindow.loadFile('renderer/main.html');
 
   // Manage new window state
   state.manage(mainWindow);
 
-  // Open DevTools - Remove for PRODUCTION!
+  // Abre DevTools - Remove for PRODUCTION!
   mainWindow.webContents.openDevTools();
 
   // Listen for window being closed
@@ -91,4 +69,3 @@ app.on('window-all-closed', () => {
 app.on('activate', () => {
   if (mainWindow === null) createWindow();
 })
-
