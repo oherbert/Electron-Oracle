@@ -5,7 +5,7 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "dev": "nodemon --exec electron . \"computador=Herbert-Note,organizacao=2\"",
+    "dev": "nodemon --exec electron . \"usuario=Herbert,senha=12345\"",
     "reset": "git reset --hard"
   },
   "repository": "https://github.com/oherbert/Electron-Oracle",

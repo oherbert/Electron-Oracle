@@ -1,5 +1,5 @@
 const {Menu, ipcMain} = require('electron');
-const geraXls = require('./geraXls');
+const geraXls = require('./utils/geraXls');
 
 //Pega a tela que está online
 let emiter;

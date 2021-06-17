@@ -2,10 +2,12 @@ class Query {
 static department = `SELECT department_id, department_name, manager_id
                     FROM departments
                     WHERE department_id = :id`;
+
 static acesso = `SELECT 1 
                   FROM acesso u
                   WHERE u.usuario = :usuario
                   AND u.senha = :senha`;
+
 static allDeps = `SELECT department_id, department_name, manager_id
                  FROM departments
                  ORDER BY department_id`;
